@@ -26,7 +26,19 @@ void TEST_BUBBLESORT() {
     cout<< endl;
 }
 
+void TEST_MERGESORT() {
+    int arr[] = { 1, 3, 4, 2, 9, 8, 7 };
+    int * pa = arr;
+    ppalgor::merge_sort( &pa, arr_len_int( arr ), 0, arr_len_int( arr ) - 1 );
+    for(size_t i = 0; i < arr_len_int(arr); i++)
+    {
+        cout<< arr[i] << ", ";
+    }
+    cout<< endl;  
+}
+
 int main() {
-    TEST_INSERTIONSORT();
+    
+    TEST_MERGESORT();
     return 0;   
 }

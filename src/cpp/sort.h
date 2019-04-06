@@ -1,7 +1,11 @@
 #pragma once
+#include <memory>
 #include <iostream>
+#include <string.h>
 #define PP_SWAP( a, b ) a ^= b; b ^= a; a ^= b
-
+#define PP_FUNC_HEADER_ITERATION static inline
+#define PP_FUNC_ARG_PP_LEN  int **out_ppar, const unsigned int len 
+#define PP_SHOWME( name, v ) printf("%s: %d!!!",name, v)
 namespace ppalgor {
     /// \brief insertion sort
     /// \note ascend version 
@@ -131,4 +135,69 @@ namespace ppalgor {
         }
        return ar;
    }
+
+    /// \breif
+    /// \param[in_out] out_ppar 
+    /// \param[in] p    left most
+    /// \param[in] q    center
+    /// \param[in] r    right most
+    PP_FUNC_HEADER_ITERATION int *merge_sort_merger( int **out_ppar, const int p, const int q, const int r ) {
+        int left_len = q - p + 1;
+        int right_len = r - q;
+        auto phead = *out_ppar; 
+        if ( left_len == 1 && right_len == 1 ) {
+            if ( phead[p] > phead[r] ) {
+                printf( "swap %d > %d\n", phead[p], phead[r] );
+                printf( "p %d r %d\n", p, r );
+                PP_SWAP( phead[p], phead[r] );
+            }
+            return *out_ppar;
+        }
+
+        int *pL = new int[left_len];
+        int *pR = new int[right_len];
+        memcpy( pL, phead + p, left_len* sizeof(int) );
+        memcpy( pR, phead + q + 1, right_len* sizeof(int) );
+
+        int i = 0, j = 0;
+        size_t k;
+        for(k = p; k <= r;)
+        {
+            if ( pL[i] <= pR[j] && i < left_len ) {
+                phead[k] = pL[i]; ++i;  k++;
+                continue;
+            } else { 
+                if ( j < right_len ) {
+                    phead[k] = pR[j]; ++j;  k++;
+                    continue;
+                }
+            }
+            break;
+        }
+
+        for( ;i < left_len; i++, k++)
+        {
+            phead[k] = pL[i];
+        }
+        
+        for( ;j < right_len; j++, k++)
+        {
+            phead[k] = pR[j];
+        }
+
+        delete [] pL;
+        delete [] pR;
+        return phead;
+    }
+
+    PP_FUNC_HEADER_ITERATION int *merge_sort( PP_FUNC_ARG_PP_LEN, int p = 0, int r = 0 ) {
+        if ( p < r ) {
+            int q = ( p + r ) / 2;
+            PP_SHOWME("p", p);
+            merge_sort( out_ppar, len, p, q );
+            merge_sort( out_ppar, len, q + 1, r );
+            merge_sort_merger( out_ppar, p, q, r );
+        }
+        return *out_ppar;
+    }
 }

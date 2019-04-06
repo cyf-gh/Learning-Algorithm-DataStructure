@@ -1,2 +1,2 @@
-g++ test.cpp
+g++ -ggdb test.cpp
 ./a.out
