@@ -7,7 +7,7 @@ using namespace std;
 void TEST_INSERTIONSORT() {
     int arr[] = { 1, 3, 4, 2, 9, 8, 7 };
     int * pa = arr;
-    ppalgor::insertion_sort( &pa, arr_len_int( arr ) );
+    ppalgor::insertion_sort_rec( &pa, arr_len_int( arr ) );
     for(size_t i = 0; i < arr_len_int(arr); i++)
     {
         cout<< arr[i] << ", ";
@@ -18,7 +18,7 @@ void TEST_INSERTIONSORT() {
 void TEST_BUBBLESORT() {
     int arr[] = { 1, 3, 4, 2, 9, 8, 7 };
     int * pa = arr;
-    ppalgor::bubble_sort( &pa, arr_len_int( arr ) );
+    ppalgor::bubble_sort_opt_2( &pa, arr_len_int( arr ) );
     for(size_t i = 0; i < arr_len_int(arr); i++)
     {
         cout<< arr[i] << ", ";
@@ -27,6 +27,6 @@ void TEST_BUBBLESORT() {
 }
 
 int main() {
-    TEST_BUBBLESORT();
+    TEST_INSERTIONSORT();
     return 0;   
 }
