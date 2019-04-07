@@ -136,7 +136,7 @@ namespace ppalgor {
        return ar;
    }
 
-    /// \breif
+    /// \brief
     /// \param[in_out] out_ppar 
     /// \param[in] p    left most
     /// \param[in] q    center
@@ -144,13 +144,11 @@ namespace ppalgor {
     PP_FUNC_HEADER_ITERATION int *merge_sort_merger( int **out_ppar, const int p, const int q, const int r ) {
         int left_len = q - p + 1;
         int right_len = r - q;
-        auto phead = *out_ppar; 
-        if ( left_len == 1 && right_len == 1 ) {
-            if ( phead[p] > phead[r] ) {
-                printf( "swap %d > %d\n", phead[p], phead[r] );
-                printf( "p %d r %d\n", p, r );
-                PP_SWAP( phead[p], phead[r] );
-            }
+        auto phead = *out_ppar;
+
+        // optimistic dual element situation
+        if ( left_len == 1 && right_len == 1 && phead[p] > phead[r] ) {
+            PP_SWAP( phead[p], phead[r] );
             return *out_ppar;
         }
 
@@ -175,6 +173,7 @@ namespace ppalgor {
             break;
         }
 
+        // attach the rest elements
         for( ;i < left_len; i++, k++)
         {
             phead[k] = pL[i];
@@ -191,13 +190,29 @@ namespace ppalgor {
     }
 
     PP_FUNC_HEADER_ITERATION int *merge_sort( PP_FUNC_ARG_PP_LEN, int p = 0, int r = 0 ) {
-        if ( p < r ) {
-            int q = ( p + r ) / 2;
-            PP_SHOWME("p", p);
-            merge_sort( out_ppar, len, p, q );
-            merge_sort( out_ppar, len, q + 1, r );
-            merge_sort_merger( out_ppar, p, q, r );
-        }
+        if ( p >= r ) { return *out_ppar; }
+        int q = ( p + r ) / 2;
+        merge_sort( out_ppar, len, p, q );
+        merge_sort( out_ppar, len, q + 1, r );
+        merge_sort_merger( out_ppar, p, q, r );
         return *out_ppar;
+    }
+
+    /// \brief shell gap
+    #define PP_ALG_SHELL_GAP( ary_len )  int gap = ary_len / 2; gap > 0; gap /= 2 
+
+    /// \brief shell sort
+    PP_FUNC_HEADER_ITERATION int *shell_sort( PP_FUNC_ARG_PP_LEN ) {
+        auto phead = *out_ppar;
+        for ( PP_ALG_SHELL_GAP( len ) ) {
+            for ( int i = gap; i < len; ++i ) {
+                //                                      V~~ ascent descent controller
+                for( int j = i; j - gap > 0 && phead[j] < phead[j-gap]; j -= gap ) {
+                    PP_SWAP( phead[j], phead[j-gap] );
+                    // or move element
+                }
+            }
+        }
+        return phead;
     }
 }

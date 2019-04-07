@@ -37,8 +37,19 @@ void TEST_MERGESORT() {
     cout<< endl;  
 }
 
+void TEST_SHELLSORT() {
+    int arr[] = { 1, 3, 4, 2, 9, 8, 7 };
+    int * pa = arr;
+    ppalgor::shell_sort( &pa, arr_len_int( arr ) );
+    for(size_t i = 0; i < arr_len_int(arr); i++)
+    {
+        cout<< arr[i] << ", ";
+    }
+    cout<< endl;  
+}
+
 int main() {
     
-    TEST_MERGESORT();
+    TEST_SHELLSORT();
     return 0;   
 }
