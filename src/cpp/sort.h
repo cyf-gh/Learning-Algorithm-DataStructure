@@ -2,9 +2,12 @@
 #include <memory>
 #include <iostream>
 #include <string.h>
-#define PP_SWAP( a, b ) a ^= b; b ^= a; a ^= b
+#define PP_SWAP( a, b ) if ( &a != &b ) { a ^= b; b ^= a; a ^= b; }
+#define PP_SWAPR( a, b ) int c = a; a = b; b = c
+
 #define PP_FUNC_HEADER_ITERATION static inline
-#define PP_FUNC_ARG_PP_LEN  int **out_ppar, const unsigned int len 
+#define PP_FUNC_ARG_OUT_ARY  int **out_ppar
+#define PP_FUNC_ARG_PP_LEN  PP_FUNC_ARG_OUT_ARY, const unsigned int len
 #define PP_SHOWME( name, v ) printf("%s: %d!!!",name, v)
 namespace ppalgor {
     /// \brief insertion sort
@@ -214,5 +217,41 @@ namespace ppalgor {
             }
         }
         return phead;
+    }
+
+    /// \brief Lomuto partition scheme
+    /// \param[in] lo   default 0
+    /// \param[in] hi   default len - 1
+    PP_FUNC_HEADER_ITERATION int quick_sort_partition( PP_FUNC_ARG_OUT_ARY, const int lo, const int hi ) {
+        auto phead = *out_ppar;
+        int pivot = phead[hi];
+        int i = lo; // what is i? 
+
+        if ( ( lo == hi - 1 ) && ( phead[lo] < phead[hi] ) ) {
+            return i;
+        }
+
+        for( size_t j = lo; j < hi -1; j++)
+        {
+            if ( phead[j] < pivot ) {
+                PP_SWAPR( phead[i], phead[j] );
+                ++i;
+            }
+        }
+
+        PP_SWAPR( phead[i], phead[hi] );
+        return i;
+    }   
+    PP_FUNC_HEADER_ITERATION int *quick_sort( PP_FUNC_ARG_OUT_ARY, const int lo, const int hi ) {
+        auto phead = *out_ppar;
+        if ( lo >= hi ) { return phead; }
+        else {  
+            int p = quick_sort_partition( out_ppar, lo, hi );
+            // quick_sort_partition makes a array which 
+            // any of lo to p - 1 < p < any of p + 1 to hi 
+            quick_sort( out_ppar, lo, p -1  );
+            quick_sort( out_ppar, p + 1, hi );
+        }
+        return phead;  
     }
 }

@@ -48,8 +48,19 @@ void TEST_SHELLSORT() {
     cout<< endl;  
 }
 
+void TEST_QUICKSORT() {
+    int arr[] = { 1, 3, 4, 2, 9, 8, 7 };
+    int * pa = arr;
+    ppalgor::quick_sort( &pa, 0, arr_len_int( arr ) - 1 );
+    for(size_t i = 0; i < arr_len_int(arr); i++)
+    {
+        cout<< arr[i] << ", ";
+    }
+    cout<< endl;      
+}
+
 int main() {
     
-    TEST_SHELLSORT();
+    TEST_QUICKSORT();
     return 0;   
 }

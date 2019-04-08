@@ -1,5 +1,7 @@
 # 排序算法
 
+# 比较算法（comparison sorts）
+
 ## swap与move
 常见的两种原子操作，move需要额外的单个空间，而位运算版的swap不需要任何的额外空间。
 
@@ -19,7 +21,7 @@
 * 尽可能将左边的元素往右挤
 * 与优化版的冒泡有些类似, 但不进行swap, 而是储存值移动元素
 
-# O(nlogn)复杂度排序 分治
+# O(nlogn)复杂度排序 分治(divide and conquer)
 
 ## 希尔排序（shell sort）
 **效率取决于增量的决定**
@@ -38,3 +40,13 @@
 * 有额外的空间复杂度
 > n A hybrid block merge sort is O(1) mem.
 
+## 快速排序(quick sort)
+### 稳定性
+不确定，存在稳定版本。
+### 性质
+* 每次选中一个主元（pivot element），使得在partition后得到如下原数列
+( lo ~ ( p - 1 ) )[any] < p < ( ( p + 1 ) ~ hi )[any]
+### 递归特征
+* lo与hi相等时递归结束
+
+# 非比较算法（non-comparison sorts）
